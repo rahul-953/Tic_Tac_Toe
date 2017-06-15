@@ -10,24 +10,24 @@ package com.example.tictactoe;
 public class TicTacToeGame {
 
 	/**
-	 * For current turn in which Block of completedBlock[][] players can play.
-	 * -1 if Players can move in any Block.
+	 * For current turn in which Block of completedBlock[][] players can play. -1 if
+	 * Players can move in any Block.
 	 */
 	private int blockToPlay_x, blockToPlay_y;
 
 	/**
-	 * It is a 9X9 Board set up to track moves of players: ...................
-	 * -1 : No one has played on this square yet...............................
-	 ** 0 : Player 2(0) has make a move on this square .......................,.
-	 ** 1 : Player 1(X) has make a move on this square.
+	 * It is a 9X9 Board set up to track moves of players: ................... -1 :
+	 * No one has played on this square yet............................... 0 :
+	 * Player 2(0) has make a move on this square .......................,. 1 :
+	 * Player 1(X) has make a move on this square.
 	 */
 	private int board[][];
 
 	/**
-	 * It is a 3X3 Block mapping of 9X9 Board to track which player has won it.
-	 * -1 : No one has win the game on this block. Block is available to play..
-	 * 00 : Player 2 has win the game on this block. Not available for playing.
-	 * 01 : Player 1 has win the game on this block. Not available for playing.
+	 * It is a 3X3 Block mapping of 9X9 Board to track which player has won it. -1 :
+	 * No one has win the game on this block. Block is available to play.. 00 :
+	 * Player 2 has win the game on this block. Not available for playing. 01 :
+	 * Player 1 has win the game on this block. Not available for playing.
 	 */
 	private int completedBlock[][];
 
@@ -192,8 +192,8 @@ public class TicTacToeGame {
 	}
 
 	/*
-	 ** Initializes starting point of board. -1 signifies the square is available
-	 * to play.
+	 ** Initializes starting point of board. -1 signifies the square is available to
+	 * play.
 	 */
 	private void initializeBoard() {
 
@@ -233,7 +233,7 @@ public class TicTacToeGame {
 		completedBlock[row / 3][column / 3] = checkBoard(block_start_row, block_start_col);
 
 		setIsGameOver(isGameOver());
-		setValidBlock(row / 3, column / 3);
+		setValidBlock(row % 3, column / 3);
 		setPlayerTurn(playerTurn + 1);
 	}
 
