@@ -30,6 +30,36 @@ public class MainActivity extends Activity implements OnClickListener {
 		playGame();
 	}
 
+	public void displayBoard() {
+
+		int count = 1;
+		TableRow row = null;
+
+		for (int rows = 0; rows < 9; rows++) {
+			row = new TableRow(this);
+			for (int col = 0; col < 9; col++) {
+
+				image = new ImageView(this);
+				image.setId(count++);
+				image.setTag("DARK_CELL");
+				image.setOnClickListener(this);
+				image.setBackgroundResource(R.drawable.dark_cell);
+
+				row.addView(image);
+
+				// row.setPadding(0,0,0,5);
+			}
+			board.addView(row, new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		}
+	}
+
+	private void playGame() {
+		game = new TicTacToeGame();
+		game.start("Player1", "Player2");
+
+		Toast.makeText(this, "Player 1 to Play", Toast.LENGTH_SHORT).show();
+	}
+
 	@Override
 	public void onClick(View v) {
 
@@ -52,6 +82,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	
+	
+	
 	private void updateUI() {
 
 		disableAll();
@@ -107,8 +140,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					if (9 * row + col + 1 < 1 || 9 * row + col + 1 > 81) {
 						Toast.makeText(this, "Out of Bounds", Toast.LENGTH_LONG).show();
 					}
-					
-					
+
 					update_imageView = (ImageView) findViewById(9 * row + col + 1);
 					updatedBackgroundImage = String.valueOf(update_imageView.getTag());
 
@@ -131,33 +163,4 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	public void displayBoard() {
-
-		int count = 1;
-		TableRow row = null;
-
-		for (int rows = 0; rows < 9; rows++) {
-			row = new TableRow(this);
-			for (int col = 0; col < 9; col++) {
-
-				image = new ImageView(this);
-				image.setId(count++);
-				image.setTag("DARK_CELL");
-				image.setOnClickListener(this);
-				image.setBackgroundResource(R.drawable.dark_cell);
-
-				row.addView(image);
-
-				// row.setPadding(0,0,0,5);
-			}
-			board.addView(row, new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		}
-	}
-
-	private void playGame() {
-		game = new TicTacToeGame();
-		game.start("Player1", "Player2");
-
-		Toast.makeText(this, "Player 1 to Play", Toast.LENGTH_SHORT).show();
-	}
 }
