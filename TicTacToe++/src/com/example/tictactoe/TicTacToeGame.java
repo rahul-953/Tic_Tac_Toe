@@ -56,6 +56,8 @@ public class TicTacToeGame {
 	 */
 	private String winner;
 
+	private int clicks = 0;
+
 	/*
 	 * Methods
 	 */
@@ -79,8 +81,8 @@ public class TicTacToeGame {
 
 		// case 4/8
 		else if (board[row][col + 1] == board[row + 1][col + 1] && board[row + 2][col + 1] == board[row + 1][col + 1]
-				&& board[row + 1][col] != -1)
-			return board[row + 1][col];
+				&& board[row + 1][col + 1] != -1)
+			return board[row + 1][col + 1];
 
 		// case 5/8
 		else if (board[row][col + 2] == board[row + 1][col + 2] && board[row + 2][col + 2] == board[row + 1][col + 2]
@@ -99,8 +101,8 @@ public class TicTacToeGame {
 
 		// case 8/8
 		else if (board[row + 2][col] == board[row + 1][col + 1] && board[row + 2][col] == board[row][col + 2]
-				&& board[row + 2][col + 2] != -1)
-			return board[row + 2][col + 2];
+				&& board[row + 2][col] != -1)
+			return board[row + 2][col];
 
 		return -1;
 	}
@@ -126,7 +128,7 @@ public class TicTacToeGame {
 		// case 4/8
 		else if (completedBlock[row][col + 1] == completedBlock[row + 1][col + 1]
 				&& completedBlock[row + 2][col + 1] == completedBlock[row + 1][col + 1]
-				&& completedBlock[row + 1][col] != -1)
+				&& completedBlock[row + 1][col + 1] != -1)
 			return true;
 
 		// case 5/8
@@ -149,8 +151,7 @@ public class TicTacToeGame {
 
 		// case 8/8
 		else if (completedBlock[row + 2][col] == completedBlock[row + 1][col + 1]
-				&& completedBlock[row + 2][col] == completedBlock[row][col + 2]
-				&& completedBlock[row + 2][col + 2] != -1)
+				&& completedBlock[row + 2][col] == completedBlock[row][col + 2] && completedBlock[row + 2][col] != -1)
 			return true;
 
 		return false;
@@ -214,7 +215,7 @@ public class TicTacToeGame {
 	}
 
 	private boolean isGameOver() {
-		return checkCompletedBlock(0, 0);
+		return checkCompletedBlock(0, 0) || clicks == 81;
 	}
 
 	/*
@@ -229,13 +230,16 @@ public class TicTacToeGame {
 		int block_start_row = (row / 3);
 		int block_start_col = (column / 3);
 
-		// System.out.println("Player " + playerTurn + " Clicked id = " + id);
-		board[row][column] = playerTurn % 2 == 0 ? 0 : 1;
-		completedBlock[row / 3][column / 3] = checkBoard(block_start_row, block_start_col);
+		if (board[row][column] == -1) {
+			board[row][column] = playerTurn % 2;
+			clicks++;
+			int startId = block_start_row * 27 + 1 + block_start_col * 3;
+			completedBlock[row / 3][column / 3] = checkBoard(getRow(startId), getColumn(startId));
 
-		setIsGameOver(isGameOver());
-		setValidBlock(row % 3, column / 3);
-		setPlayerTurn(playerTurn + 1);
+			setIsGameOver(isGameOver());
+			setValidBlock(id);
+			setPlayerTurn(playerTurn + 1);
+		}
 	}
 
 	/*
@@ -262,6 +266,9 @@ public class TicTacToeGame {
 	 ** arguments: boolean isIt : true if Game is Over.
 	 */
 	private void setIsGameOver(boolean isIt) {
+		if (isIt) {
+			winner = playerTurn % 2 == 0 ? namePlayer1 : namePlayer2;
+		}
 		isGameOver = isIt;
 	}
 
@@ -293,15 +300,24 @@ public class TicTacToeGame {
 		namePlayer2 = P2;
 	}
 
-	private void setValidBlock(int current_x, int current_y) {
+	private int getBlockMap(int id) {
 
-		if (completedBlock[current_x][current_y] == -1) {
+		for (int i = 0; i <= 8; i++) {
+			for (int j = 0; j < 9; j++) {
+				if (MyConstants.MAP[i][j] == id)
+					return i;
+			}
+		}
+		return id;
+	}
 
-			blockToPlay_x = current_x;
-			blockToPlay_y = current_y;
+	private void setValidBlock(int id) {
 
-		} else {
+		int temp = getBlockMap(id);
+		blockToPlay_x = temp / 3;
+		blockToPlay_y = temp % 3;
 
+		if (completedBlock[temp / 3][temp % 3] != -1) {
 			blockToPlay_x = -1;
 			blockToPlay_y = -1;
 		}
@@ -319,7 +335,7 @@ public class TicTacToeGame {
 		setBlockToPlay_x(-1);
 		setBlockToPlay_y(-1);
 		setPlayerTurn(1);
-
 		initializeBoard();
+		winner = "DRAW";
 	}
 }
