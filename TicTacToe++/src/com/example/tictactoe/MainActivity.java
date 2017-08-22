@@ -53,7 +53,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 				row.addView(image);
 
-				// row.setPadding(0,0,0,5);
 			}
 			board.addView(row, new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		}
@@ -79,7 +78,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			// clicked Id is ImageID
 			if (clicked_id >= 1 && clicked_id <= 81) {
 				game.make_a_move(clicked_id);
-				// Toast.makeText(this, "" + game.getIsGameOver(), Toast.LENGTH_SHORT).show();
 				updateUI();
 
 			} else {
@@ -92,7 +90,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		if (game.getIsGameOver()) {
 			// Stop game and pop-up name of winner
-			onButtonShowPopupWindowClick();
+			showResultPopupWindow();
 
 		}
 	}
@@ -239,14 +237,15 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	public void onButtonShowPopupWindowClick() {
+	public void showResultPopupWindow() {
 
 		// get a reference to the already created main layout
 		LinearLayout mainLayout = (LinearLayout) findViewById(R.id.buttonlayout);
 
 		// inflate the layout of the popup window
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		View popupView = inflater.inflate(R.layout.popup_window, null);
+		LinearLayout parentLayout = (LinearLayout) mainLayout.findViewById(R.id.orientation);
+		View popupView = inflater.inflate(R.layout.popup_window, parentLayout);
 
 		TextView tv = (TextView) popupView.findViewById(R.id.popup);
 		if (game.getWinner().equals("DRAW"))
