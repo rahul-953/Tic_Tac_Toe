@@ -156,7 +156,6 @@ public class TicTacToeGame {
 
 		return false;
 	}
-	
 
 	public int[][] getBoard() {
 		return board;
@@ -237,9 +236,10 @@ public class TicTacToeGame {
 			int startId = block_start_row * 27 + 1 + block_start_col * 3;
 			completedBlock[row / 3][column / 3] = checkBoard(getRow(startId), getColumn(startId));
 
-		setIsGameOver(isGameOver());
-		setValidBlock(row % 3, column / 3);
-		setPlayerTurn(playerTurn + 1);
+			setIsGameOver(isGameOver());
+			setValidBlock(id);
+			setPlayerTurn(playerTurn + 1);
+		}
 	}
 
 	/*
