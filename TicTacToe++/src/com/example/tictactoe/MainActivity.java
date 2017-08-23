@@ -111,8 +111,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			for (int col = 0; col < 9; col++) {
 
 				update_imageView = (ImageView) findViewById(temp_count++);
-				// updatedBackgroundImage =
-				// String.valueOf(update_imageView.getTag());
 				update_imageView.setClickable(false);
 
 				if (currentBoard[row][col] == -1) {
@@ -150,11 +148,9 @@ public class MainActivity extends Activity implements OnClickListener {
 					}
 				}
 			}
-			// Toast.makeText(this, "Case of -1", Toast.LENGTH_SHORT).show();
 
 		} else {
-			// Toast.makeText(this, "Case of " + currentValid[0] + ", " +
-			// currentValid[1], Toast.LENGTH_SHORT).show();
+
 			for (int row = currentValid[0] * 3; row < 3 * currentValid[0] + 3; row++) {
 				for (int col = currentValid[1] * 3; col < 3 + 3 * currentValid[1]; col++) {
 
@@ -265,7 +261,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		// dismiss the popup window when touched
 		popupView.setOnTouchListener(new View.OnTouchListener() {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onTouch(View view, MotionEvent event) {
+				view.performClick();
 				popupWindow.dismiss();
 				return true;
 			}

@@ -45,18 +45,17 @@ public class TicTacToeGame {
 	 * Name of Player 2
 	 */
 	private String namePlayer2;
+	
+	private String winner;
 
 	/**
 	 * To track which Player's turn it is: 0 -> Player TWO. 1 -> Player ONE.
 	 */
 	private int playerTurn;
 
-	/**
-	 ** To store name of Winner otherwise Draw.
-	 */
-	private String winner;
-
 	private int clicks = 0;
+
+
 
 	/*
 	 * Methods
@@ -189,7 +188,12 @@ public class TicTacToeGame {
 	}
 
 	public String getWinner() {
-		return playerTurn % 2 == 0 ? namePlayer2 : namePlayer1;
+		winner = playerTurn % 2 == 0 ? namePlayer2 : namePlayer1;
+		return winner;
+	}
+
+	private void setWinner(String win) {
+		winner = win;
 	}
 
 	/*
@@ -267,7 +271,6 @@ public class TicTacToeGame {
 	 */
 	private void setIsGameOver(boolean isIt) {
 		if (isIt) {
-			winner = playerTurn % 2 == 0 ? namePlayer1 : namePlayer2;
 		}
 		isGameOver = isIt;
 	}
@@ -336,6 +339,6 @@ public class TicTacToeGame {
 		setBlockToPlay_y(-1);
 		setPlayerTurn(1);
 		initializeBoard();
-		winner = "DRAW";
+		setWinner("DRAW");
 	}
 }
