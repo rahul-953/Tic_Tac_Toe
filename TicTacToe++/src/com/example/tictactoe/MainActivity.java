@@ -106,7 +106,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		ImageView update_imageView;
 		int currentBoard[][] = game.getBoard();
 		int temp_count = 1;
-
+		Log.e("TIMEPASS","HELLO");
 		for (int row = 0; row < 9; row++) {
 			for (int col = 0; col < 9; col++) {
 
@@ -133,10 +133,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		ImageView update_imageView;
 		String updatedBackgroundImage;
 		int currentValid[] = game.getCurrentValidBlock();
+		int nonPlayable[][] = game.getCompletedBlock();
 
 		if (currentValid[0] == -1 || currentValid[1] == -1) {
 
-			int nonPlayable[][] = game.getCompletedBlock();
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
 					if (nonPlayable[i][j] != -1) {
@@ -160,19 +160,20 @@ public class MainActivity extends Activity implements OnClickListener {
 
 					update_imageView = (ImageView) findViewById(9 * row + col + 1);
 					updatedBackgroundImage = String.valueOf(update_imageView.getTag());
-
-					if (updatedBackgroundImage.equals("LIGHT_CELL")) {
-						update_imageView.setTag("DARK_CELL");
-						update_imageView.setBackgroundResource(R.drawable.dark_cell);
-						update_imageView.setClickable(true);
-					} else if (updatedBackgroundImage.equals("LIGHT_CROSS")) {
-						update_imageView.setTag("DARK_CROSS");
-						update_imageView.setBackgroundResource(R.drawable.dark_cross);
-						update_imageView.setClickable(true);
-					} else if (updatedBackgroundImage.equals("LIGHT_ZERO")) {
-						update_imageView.setTag("DARK_ZERO");
-						update_imageView.setBackgroundResource(R.drawable.dark_zero);
-						update_imageView.setClickable(true);
+					if (nonPlayable[game.getRow(9 * row + col + 1) / 3][game.getColumn(9 * row + col + 1) / 3] != 2) {
+						if (updatedBackgroundImage.equals("LIGHT_CELL")) {
+							update_imageView.setTag("DARK_CELL");
+							update_imageView.setBackgroundResource(R.drawable.dark_cell);
+							update_imageView.setClickable(true);
+						} else if (updatedBackgroundImage.equals("LIGHT_CROSS")) {
+							update_imageView.setTag("DARK_CROSS");
+							update_imageView.setBackgroundResource(R.drawable.dark_cross);
+							update_imageView.setClickable(true);
+						} else if (updatedBackgroundImage.equals("LIGHT_ZERO")) {
+							update_imageView.setTag("DARK_ZERO");
+							update_imageView.setBackgroundResource(R.drawable.dark_zero);
+							update_imageView.setClickable(true);
+						}
 					}
 				}
 			}
