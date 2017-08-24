@@ -45,7 +45,7 @@ public class TicTacToeGame {
 	 * Name of Player 2
 	 */
 	private String namePlayer2;
-	
+
 	private String winner;
 
 	/**
@@ -55,104 +55,71 @@ public class TicTacToeGame {
 
 	private int clicks = 0;
 
-
-
 	/*
 	 * Methods
 	 */
 
 	private int checkBoard(int row, int col) {
 
-		// case 1/8
-		if (board[row][col] == board[row + 1][col] && board[row + 2][col] == board[row + 1][col]
-				&& board[row + 1][col] != -1)
-			return board[row + 1][col];
-
-		// case 2/8
-		else if (board[row][col] == board[row][col + 1] && board[row][col + 2] == board[row][col + 1]
-				&& board[row][col + 1] != -1)
-			return board[row][col + 1];
-
-		// case 3/8
-		else if (board[row][col] == board[row + 1][col + 1] && board[row + 2][col + 2] == board[row + 1][col + 1]
+		// case 1st diagonal
+		if (board[row][col] == board[row + 1][col + 1] && board[row + 2][col + 2] == board[row + 1][col + 1]
 				&& board[row][col] != -1)
 			return board[row][col];
 
-		// case 4/8
-		else if (board[row][col + 1] == board[row + 1][col + 1] && board[row + 2][col + 1] == board[row + 1][col + 1]
-				&& board[row + 1][col + 1] != -1)
-			return board[row + 1][col + 1];
+		// case 2nd diagonal
+		if (board[row][col + 2] == board[row + 1][col + 1] && board[row + 2][col] == board[row + 1][col + 1]
+				&& board[row][col + 2] != -1)
+			return board[row][col + 2];
 
-		// case 5/8
-		else if (board[row][col + 2] == board[row + 1][col + 2] && board[row + 2][col + 2] == board[row + 1][col + 2]
-				&& board[row + 1][col + 2] != -1)
-			return board[row + 1][col + 2];
+		for (int i = row; i < row + 3; i++) {
+			// win in ith row
+			if (board[i][col] == board[i][col + 1] && board[i][col + 1] == board[i][col + 2] && board[i][col + 2] != -1)
+				return board[i][col];
+		}
 
-		// case 6/8
-		else if (board[row + 1][col] == board[row + 1][col + 1] && board[row + 1][col + 1] == board[row + 1][col + 2]
-				&& board[row + 1][col + 2] != -1)
-			return board[row + 1][col + 2];
+		for (int j = col; j < col + 3; j++) {
+			// win in jth col
+			if (board[row][j] == board[row + 1][j] && board[row + 1][j] == board[row + 2][j] && board[row][j] != -1)
+				return board[row][j];
+		}
 
-		// case 7/8
-		else if (board[row + 2][col] == board[row + 2][col + 1] && board[row + 2][col + 1] == board[row + 2][col + 2]
-				&& board[row + 2][col + 2] != -1)
-			return board[row + 2][col + 2];
+		// This square is not won by any player yet so check for draw
+		int count = 0;
+		for (int i = row; i < row + 3; i++) {
+			for (int j = col; j < col + 3; j++) {
+				if (board[i][j] == -1)
+					return -1;
+				else
+					count++;
+			}
+		}
+		return 2;
 
-		// case 8/8
-		else if (board[row + 2][col] == board[row + 1][col + 1] && board[row + 2][col] == board[row][col + 2]
-				&& board[row + 2][col] != -1)
-			return board[row + 2][col];
-
-		return -1;
 	}
 
 	private boolean checkCompletedBlock(int row, int col) {
 
-		// case 1/8
-		if (completedBlock[row][col] == completedBlock[row + 1][col]
-				&& completedBlock[row + 2][col] == completedBlock[row + 1][col] && completedBlock[row + 1][col] != -1)
+		// case 1st diagonal
+		if (completedBlock[0][0] == completedBlock[1][1] && completedBlock[2][2] == completedBlock[1][1]
+				&& completedBlock[0][0] != -1)
 			return true;
 
-		// case 2/8
-		else if (completedBlock[row][col] == completedBlock[row][col + 1]
-				&& completedBlock[row][col + 2] == completedBlock[row][col + 1] && completedBlock[row][col + 1] != -1)
+		// case 2nd diagonal
+		if (completedBlock[0][2] == completedBlock[1][1] && completedBlock[2][0] == completedBlock[1][1]
+				&& completedBlock[0][2] != -1)
 			return true;
 
-		// case 3/8
-		else if (completedBlock[row][col] == completedBlock[row + 1][col + 1]
-				&& completedBlock[row + 2][col + 2] == completedBlock[row + 1][col + 1]
-				&& completedBlock[row][col] != -1)
-			return true;
+		for (int i = 0; i < 3; i++) {
+			// win in ith row
+			if (completedBlock[i][0] == completedBlock[i][1] && completedBlock[i][1] == completedBlock[i][2]
+					&& completedBlock[i][2] != -1)
+				return true;
 
-		// case 4/8
-		else if (completedBlock[row][col + 1] == completedBlock[row + 1][col + 1]
-				&& completedBlock[row + 2][col + 1] == completedBlock[row + 1][col + 1]
-				&& completedBlock[row + 1][col + 1] != -1)
-			return true;
-
-		// case 5/8
-		else if (completedBlock[row][col + 2] == completedBlock[row + 1][col + 2]
-				&& completedBlock[row + 2][col + 2] == completedBlock[row + 1][col + 2]
-				&& completedBlock[row + 1][col + 2] != -1)
-			return true;
-
-		// case 6/8
-		else if (completedBlock[row + 1][col] == completedBlock[row + 1][col + 1]
-				&& completedBlock[row + 1][col + 1] == completedBlock[row + 1][col + 2]
-				&& completedBlock[row + 1][col + 2] != -1)
-			return true;
-
-		// case 7/8
-		else if (completedBlock[row + 2][col] == completedBlock[row + 2][col + 1]
-				&& completedBlock[row + 2][col + 1] == completedBlock[row + 2][col + 2]
-				&& completedBlock[row + 2][col + 2] != -1)
-			return true;
-
-		// case 8/8
-		else if (completedBlock[row + 2][col] == completedBlock[row + 1][col + 1]
-				&& completedBlock[row + 2][col] == completedBlock[row][col + 2] && completedBlock[row + 2][col] != -1)
-			return true;
-
+			// win in ith column
+			if (completedBlock[0][i] == completedBlock[1][i] && completedBlock[1][i] == completedBlock[2][i]
+					&& completedBlock[0][i] != -1)
+				return true;
+		}
 		return false;
 	}
 
@@ -175,11 +142,11 @@ public class TicTacToeGame {
 		return isGameOver;
 	}
 
-	private int getRow(int id) {
+	public int getRow(int id) {
 		return (id - 1) / 9;
 	}
 
-	private int getColumn(int id) {
+	public int getColumn(int id) {
 		return id - 1 - ((id - 1) / 9) * 9;
 	}
 
@@ -219,7 +186,7 @@ public class TicTacToeGame {
 	}
 
 	private boolean isGameOver() {
-		return checkCompletedBlock(0, 0) || clicks == 81;
+		return checkCompletedBlock(0, 0);
 	}
 
 	/*
