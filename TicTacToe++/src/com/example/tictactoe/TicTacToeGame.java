@@ -16,18 +16,20 @@ public class TicTacToeGame {
 	private int blockToPlay_x, blockToPlay_y;
 
 	/**
-	 * It is a 9X9 Board set up to track moves of players: ................... -1 :
-	 * No one has played on this square yet............................... 0 :
-	 * Player 2(0) has make a move on this square .......................,. 1 :
-	 * Player 1(X) has make a move on this square.
+	 * It is a 9X9 Board set up to track moves of players: ........................
+	 * -1 : No one has played on this square yet...................................
+	 * 0 : Player 2(0) has make a move on this square .............................
+	 * 1 : Player 1(X) has make a move on this square.
 	 */
 	private int board[][];
 
 	/**
-	 * It is a 3X3 Block mapping of 9X9 Board to track which player has won it. -1 :
-	 * No one has win the game on this block. Block is available to play.. 00 :
-	 * Player 2 has win the game on this block. Not available for playing. 01 :
-	 * Player 1 has win the game on this block. Not available for playing.
+	 * It is a 3X3 Block mapping of 9X9 Board to track which player has won it....
+	 * -1 : No one has win the game on this block. Block is available to play.....
+	 * 00 : Player 2 has win the game on this block. Not available for playing....
+	 * 01 : Player 1 has win the game on this block. Not available for playing. ..
+	 * 02 : This 3X3 block is DRAW
+	 * 
 	 */
 	private int completedBlock[][];
 
@@ -46,14 +48,15 @@ public class TicTacToeGame {
 	 */
 	private String namePlayer2;
 
+	/**
+	 * Name of WINNER otherwise DRAW
+	 */
 	private String winner;
 
 	/**
 	 * To track which Player's turn it is: 0 -> Player TWO. 1 -> Player ONE.
 	 */
 	private int playerTurn;
-
-	private int clicks = 0;
 
 	/*
 	 * Methods
@@ -84,13 +87,10 @@ public class TicTacToeGame {
 		}
 
 		// This square is not won by any player yet so check for draw
-		int count = 0;
 		for (int i = row; i < row + 3; i++) {
 			for (int j = col; j < col + 3; j++) {
 				if (board[i][j] == -1)
 					return -1;
-				else
-					count++;
 			}
 		}
 		return 2;
@@ -163,6 +163,10 @@ public class TicTacToeGame {
 		winner = win;
 	}
 
+	private void setWinner() {
+
+	}
+
 	/*
 	 ** Initializes starting point of board. -1 signifies the square is available to
 	 * play.
@@ -203,12 +207,12 @@ public class TicTacToeGame {
 
 		if (board[row][column] == -1) {
 			board[row][column] = playerTurn % 2;
-			clicks++;
 			int startId = block_start_row * 27 + 1 + block_start_col * 3;
 			completedBlock[row / 3][column / 3] = checkBoard(getRow(startId), getColumn(startId));
 
 			setIsGameOver(isGameOver());
 			setValidBlock(id);
+			setWinner();
 			setPlayerTurn(playerTurn + 1);
 		}
 	}
@@ -216,7 +220,7 @@ public class TicTacToeGame {
 	/*
 	 ** Method to update the x co-ordinate of 3X3 block to play in current turn.
 	 *
-	 ** arguments: int x: x co-ordinate for the turn.
+	 ** @arguments: int x: x co-ordinate for the turn.
 	 */
 	private void setBlockToPlay_x(int x) {
 		blockToPlay_x = x;
@@ -225,7 +229,7 @@ public class TicTacToeGame {
 	/*
 	 ** Method to update the y co-ordinate of 3X3 block to play in current turn.
 	 *
-	 ** arguments: int y: y co-ordinate for the turn.
+	 ** @arguments: int y: y co-ordinate for the turn.
 	 */
 	private void setBlockToPlay_y(int y) {
 		blockToPlay_y = y;
@@ -233,8 +237,8 @@ public class TicTacToeGame {
 
 	/*
 	 ** Method to update the variable isGameOver
-	 *
-	 ** arguments: boolean isIt : true if Game is Over.
+	 * 
+	 ** @arguments: boolean isIt : true if Game is Over.
 	 */
 	private void setIsGameOver(boolean isIt) {
 		if (isIt) {
