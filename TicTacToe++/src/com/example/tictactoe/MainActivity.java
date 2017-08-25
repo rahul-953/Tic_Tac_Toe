@@ -24,6 +24,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private String namePlayer2;
 	private ImageView image;
 	private TicTacToeGame game;
+	private TextView player1, player2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	public void displayBoard() {
+
+		player1 = (TextView) findViewById(R.id.player1);
+		player2 = (TextView) findViewById(R.id.player2);
 
 		int count = 1;
 		TableRow row = null;
@@ -60,8 +64,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void playGame() {
 		game = new TicTacToeGame();
-		namePlayer1 = "P1";
-		namePlayer2 = "P2";
+		namePlayer1 = player1.getText().toString();
+		namePlayer2 = player2.getText().toString();
 		game.start(namePlayer1, namePlayer2);
 
 		Toast.makeText(this, "Player 1 to Play", Toast.LENGTH_SHORT).show();
@@ -89,7 +93,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 
 		if (game.getIsGameOver()) {
-			// Stop game and pop-up name of winner
+			// Stop game and pop-up Result
 			showResultPopupWindow();
 
 		}
@@ -106,7 +110,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		ImageView update_imageView;
 		int currentBoard[][] = game.getBoard();
 		int temp_count = 1;
-		Log.e("TIMEPASS","HELLO");
 		for (int row = 0; row < 9; row++) {
 			for (int col = 0; col < 9; col++) {
 
