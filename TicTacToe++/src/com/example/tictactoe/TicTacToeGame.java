@@ -99,11 +99,15 @@ public class TicTacToeGame {
 
 	private boolean checkCompletedBlock(int row, int col) {
 
+		// Assuming current player's turn is winner
+		setWinner(getTurn() % 2 == 0 ? namePlayer2 : namePlayer1);
+
 		// case 1st diagonal
 		if (completedBlock[0][0] == completedBlock[1][1] && completedBlock[2][2] == completedBlock[1][1]
-				&& completedBlock[0][0] != -1)
-			return true;
+				&& completedBlock[0][0] != -1) {
 
+			return true;
+		}
 		// case 2nd diagonal
 		if (completedBlock[0][2] == completedBlock[1][1] && completedBlock[2][0] == completedBlock[1][1]
 				&& completedBlock[0][2] != -1)
@@ -120,7 +124,18 @@ public class TicTacToeGame {
 					&& completedBlock[0][i] != -1)
 				return true;
 		}
-		return false;
+
+		// This game is not won by any player yet so check for draw
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (completedBlock[i][j] == -1)
+					return false;
+			}
+		}
+
+		setWinner("DRAW"); // Game is DRAW so update assumed winner
+		setIsGameOver(true); // Game is draw, so it's over
+		return true;
 	}
 
 	public int[][] getBoard() {
@@ -155,16 +170,11 @@ public class TicTacToeGame {
 	}
 
 	public String getWinner() {
-		winner = playerTurn % 2 == 0 ? namePlayer2 : namePlayer1;
 		return winner;
 	}
 
 	private void setWinner(String win) {
 		winner = win;
-	}
-
-	private void setWinner() {
-
 	}
 
 	/*
@@ -212,7 +222,6 @@ public class TicTacToeGame {
 
 			setIsGameOver(isGameOver());
 			setValidBlock(id);
-			setWinner();
 			setPlayerTurn(playerTurn + 1);
 		}
 	}
@@ -241,8 +250,6 @@ public class TicTacToeGame {
 	 ** @arguments: boolean isIt : true if Game is Over.
 	 */
 	private void setIsGameOver(boolean isIt) {
-		if (isIt) {
-		}
 		isGameOver = isIt;
 	}
 
